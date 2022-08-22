@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NTU_TimeTable</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="register_btn">Register</string>
+    <string name="invalid_email_or_password">Invalid Email or Password!!</string>
 </resources>
