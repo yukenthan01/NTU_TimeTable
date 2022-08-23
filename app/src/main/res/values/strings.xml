@@ -4,4 +4,18 @@
     <string name="login_password_hint">Password</string>
     <string name="register_btn">Register</string>
     <string name="invalid_email_or_password">Invalid Email or Password!!</string>
+
+<!--    Menu strings-->
+    <string name="category">Category</string>
+    <string name="nav_main_tittle">Main</string>
+    <string name="nav_user_tittle">Users</string>
+    <string name="nav_user_create">Create User</string>
+    <string name="user_view">Profile</string>
+    <string name="tittle_profile">Profile</string>
+    <string name="nav_user_credentials">Credentials</string>
+    <string name="nav_user_password_reset">Password Reset</string>
+    <string name="viewed_compliants">View Compliants</string>
+    <string name="new_category_create">New Category</string>
+    <string name="nav_logout">Logout</string>
+    <string name="view_categories">View Categories</string>
 </resources>

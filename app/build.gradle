@@ -38,5 +38,6 @@ dependencies {
 
     implementation 'com.scottyab:aescrypt:0.0.1'
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
