@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,22 +52,22 @@ public class AdminDashboard extends AppCompatActivity {
                 int id = item.getItemId();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 switch (id) {
-                    case R.id.nav_viewed_compliant:
-                        toolbar.setTitle(R.string.viewed_compliants);
+                    case R.id.nav_timetable:
+                        toolbar.setTitle(R.string.create_timetable);
                         item.setChecked(true);
-                       // replaceFragment(new ViewComplaintsFragment(finalUserRole));
+                        replaceFragment(new TimeTableCreateFragment());
                         break;
 
-                    case R.id.nav_category_create:
+                    case R.id.nav_view_timetable:
                         toolbar.setTitle("R.string.category_title");
                         ////replaceFragment(new CategoryFragment());
                         break;
-                    case R.id.nav_category_view:
+                    case R.id.nav_assignment:
                         toolbar.setTitle(R.string.view_categories);
                         item.setChecked(true);
                         //replaceFragment(new ViewCategoryFragment());
                         break;
-                    case R.id.nav_user_view:
+                    case R.id.nav_view_assignment:
                         toolbar.setTitle(R.string.tittle_profile);
                         item.setChecked(true);
                         //replaceFragment(new ProfileFragment());
@@ -88,5 +91,11 @@ public class AdminDashboard extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout,fragment);
+        fragmentTransaction.commit();
     }
 }

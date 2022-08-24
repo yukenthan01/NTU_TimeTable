@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "518420974838",
+    "project_id": "ntutimetable-20f71",
+    "storage_bucket": "ntutimetable-20f71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518420974838:android:e310b8a3a7bc48b74bf0d7",
+        "android_client_info": {
+          "package_name": "yuken.example.ntu_timetable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518420974838-orttffdr87u8b5d0ca8u26fpsu4jf9bs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-jNdCd9NDecVaaixvd1r8qI2CIrvnqns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518420974838-orttffdr87u8b5d0ca8u26fpsu4jf9bs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

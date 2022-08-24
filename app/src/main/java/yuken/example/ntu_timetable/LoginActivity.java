@@ -1,10 +1,11 @@
 package yuken.example.ntu_timetable;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.GeneralSecurityException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 public class LoginActivity extends AppCompatActivity {
     Boolean isEmptyChecked,isPasswordChecked; // for valida email adn password
@@ -21,60 +28,45 @@ public class LoginActivity extends AppCompatActivity {
     TextView errorTextView;
     Button btnLogin;
     Validations validations;
-    private LoginDataLayer loginDataLayer;
-    public static DatabaseConnection databaseConnection;
-    private String userRole;
-    String loginName, loginRole = null,result = "false";
-    private SharedPreferences sharedPreferences; // login validation daily use
-    private static final String SHARED_PRE_NAME = "myPreference";
-    private static final String KEY_NAME = "username";
-    private static final String KEY_ROLE = "userType";
 
-    private DataSeeds dataSeeds ;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         validations = new Validations();
-        dataSeeds = new DataSeeds();
-        loginDataLayer = new LoginDataLayer();
 
         btnLogin = findViewById(R.id.btnLogin);
         username = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
         errorTextView = findViewById(R.id.invalidEmailPassword);
-        // first time data enter by manual
-        try {
-            dataSeeds.adminAccountCreation(this);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
+
 //        Login CLick event start for the login process
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isEmptyChecked = validations.isEmpty(password);
-
                 if(isEmptyChecked){
-//                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-//                    finish();
-                    String result = "false";
-                    try {
-                        result = loginDataLayer.login(username.getText().toString(),
-                                password.getText().toString(),LoginActivity.this);
-
-//                        SharedPreferences.Editor editor=sharedPreferences.edit();
-//                        editor.putString(KEY_NAME,username.getEditText().getText().toString());
-//                        editor.putString(KEY_ROLE,result);
-//                        editor.apply();
-
-//                        selectDashboard(result);
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        finish();
-                    } catch (GeneralSecurityException e) {
-                        e.printStackTrace();
-                    }
+                    firebaseAuth.signInWithEmailAndPassword(username.getText().toString(),
+                            password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(LoginActivity.this,"dsfsdfd",Toast.LENGTH_SHORT);
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginActivity.this,"dsfsdfd",Toast.LENGTH_SHORT);
+                            errorTextView.setText(e.getMessage().toString());
+                            errorTextView.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
                // Toast.makeText(LoginActivity.this,username.getText().toString(),
                         //Toast.LENGTH_SHORT);

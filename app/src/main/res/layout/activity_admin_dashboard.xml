@@ -38,7 +38,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/admin_menu"
+
         android:visibility="visible"
         app:itemBackground="@android:color/transparent"
         app:itemIconTint="@color/list_color"

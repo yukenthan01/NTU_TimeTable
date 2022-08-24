@@ -5,7 +5,7 @@
     <string name="register_btn">Register</string>
     <string name="invalid_email_or_password">Invalid Email or Password!!</string>
 
-<!--    Menu strings-->
+    <!--    Menu strings-->
     <string name="category">Category</string>
     <string name="nav_main_tittle">Main</string>
     <string name="nav_user_tittle">Users</string>
@@ -14,8 +14,28 @@
     <string name="tittle_profile">Profile</string>
     <string name="nav_user_credentials">Credentials</string>
     <string name="nav_user_password_reset">Password Reset</string>
-    <string name="viewed_compliants">View Compliants</string>
+    <string name="create_timetable">Create Timetable</string>
     <string name="new_category_create">New Category</string>
     <string name="nav_logout">Logout</string>
     <string name="view_categories">View Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Time table form string -->
+
+    <string name="moduleId">Module</string>
+    <string name="day">Day</string>
+    <string name="startTime">Start Time</string>
+    <string name="select">Select</string>
+    <string name="endTime">End Time</string>
+    <string name="location">Loction</string>
+    <string name="type">Type</string>
+    <string name="Submit">Submit</string>
+    <string name="lecturer">Lecturer</string>
+    <string name="date">Date</string>
+    <string name="username_icon_description">Username Icon</string>
+    <string name="checkString">Do you want to repeat all the weeks?</string>
+    <string name="termStartDate">Term Start Date</string>
+    <string name="termEndDate">Term End Date</string>
+    <string name="batchNumber">Batch Number</string>
 </resources>

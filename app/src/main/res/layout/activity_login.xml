@@ -52,7 +52,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColor="@color/placeHolder"
-                    android:text="N0000000"
+                    android:text="n1038349@gmail.com"
 
                     />
             </com.google.android.material.textfield.TextInputLayout>
