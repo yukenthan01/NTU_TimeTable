@@ -59,8 +59,8 @@ public class AdminDashboard extends AppCompatActivity {
                         break;
 
                     case R.id.nav_view_timetable:
-                        toolbar.setTitle("R.string.category_title");
-                        ////replaceFragment(new CategoryFragment());
+                        toolbar.setTitle("View Timetable");
+                        replaceFragment(new ViewTimeTableFragment());
                         break;
                     case R.id.nav_assignment:
                         toolbar.setTitle(R.string.view_categories);

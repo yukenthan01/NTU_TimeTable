@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#FF717171"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        android:layout_marginTop="10dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/dateList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:text="01/01/2022"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/timeList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:text="08:00"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_baseline_access_time_24"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/locationList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_below="@+id/dateList"
+                android:layout_marginLeft="10dp"
+                android:text="08:00"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_outline_location_on_24"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lecturerList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_below="@+id/locationList"
+                android:layout_marginLeft="10dp"
+                android:text="08:00"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/editList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/lecturerList"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/lecturerList"
+                android:drawableLeft="@drawable/ic_outline_edit_24"
+                android:drawablePadding="5dp"
+                android:text="Edit"
+                android:textSize="16sp" />
+
+
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_below=""-->
+<!--                    android:background="@color/white" />-->
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>
