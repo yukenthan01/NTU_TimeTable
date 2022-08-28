@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -55,9 +57,10 @@ public class LoginActivity extends AppCompatActivity {
                             password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(LoginActivity.this,"dsfsdfd",Toast.LENGTH_SHORT);
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            finish();
+
+                            checkUserAccessLevel(authResult.getUser().getUid());
+//                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                            finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -70,6 +73,34 @@ public class LoginActivity extends AppCompatActivity {
                 }
                // Toast.makeText(LoginActivity.this,username.getText().toString(),
                         //Toast.LENGTH_SHORT);
+            }
+        });
+    }
+    public void checkUserAccessLevel(String uid) {
+        Log.d("TAG123", "asd | " + uid);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(uid);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                if(documentSnapshot.getString("userRole").toString().equals("admin")){
+
+                    Toast.makeText(LoginActivity.this,"Login Successfull",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),AdminDashboard.class));
+                    finish();
+                }
+                else if(documentSnapshot.getString("userRole") .equals("student")){
+                    Toast.makeText(LoginActivity.this,"Login SuccessfullStudent",
+                            Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),StudentDashboardActivity.class));
+                    finish();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }

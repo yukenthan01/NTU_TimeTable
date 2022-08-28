@@ -157,7 +157,7 @@ public class TimeTableCreateFragment extends Fragment {
             txtEndTimePicker.setText(mo_endTime);;
             batchNumber.setText(mo_batchNo);
             //get module name by documnet ID
-            dataSeeds.getValueByField(new DataSeeds.getLectureIdCallback() {
+            dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
                 @Override
                 public void onCallback(String fieldValues) {
                     moduleId.setText(fieldValues);
@@ -166,7 +166,7 @@ public class TimeTableCreateFragment extends Fragment {
             },"module","module",mo_moduleId);
 
             //get Lecture name by documnet ID
-            dataSeeds.getValueByField(new DataSeeds.getLectureIdCallback() {
+            dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
                 @Override
                 public void onCallback(String fieldValues) {
                     lecturerId.setText(fieldValues);
@@ -754,23 +754,5 @@ public class TimeTableCreateFragment extends Fragment {
             }
         });
     }
-    // Dummy Insert values
-    public void dummyInsertTablesValues()
-    {
-        Map<String,Object> dummy = new HashMap<>();
-        dummy.put("moduleId","JLVsrUNVwLT8n556MDKy");
-        dummy.put("studentId","jWMRaFYxpVYyzp7acICm");
-        firebaseFirestore.collection("studentModule").add(dummy).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                lastInsertId = documentReference.getId();
-                Log.d("dummy", "onSuccess: User Added Successfully"+documentReference.getId());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onSuccess: "+e.getMessage());
-            }
-        });
-    }
+
 }

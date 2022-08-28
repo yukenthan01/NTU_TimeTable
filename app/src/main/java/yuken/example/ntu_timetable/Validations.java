@@ -11,7 +11,7 @@ public class Validations {
         if(!textField.getText().toString().isEmpty()){
             valid = true;
         }else {
-            textField.setError("Enter valid Email address !");
+            textField.setError("Please fill all details!!");
             valid = false;
         }
         return valid;

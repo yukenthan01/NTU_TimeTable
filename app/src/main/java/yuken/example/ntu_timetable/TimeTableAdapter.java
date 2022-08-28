@@ -25,7 +25,7 @@ public class TimeTableAdapter extends FirestoreRecyclerAdapter<TimeTableModel,
         DataSeeds dataSeeds = new DataSeeds();
         holder.dateList.setText(model.getDate());
         holder.timeList.setText(model.getStartTime());
-        dataSeeds.getValueByField(new DataSeeds.getLectureIdCallback() {
+        dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
             @Override
             public void onCallback(String fieldValues) {
                 holder.lecturer.setText(fieldValues);

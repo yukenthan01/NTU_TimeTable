@@ -24,11 +24,11 @@ import java.util.List;
 public class DataSeeds {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     String result  = null;
-    public interface getLectureIdCallback {
+    public interface getValueCallback {
         void onCallback(String fieldValues);
     }
     public void getValueByField(
-            getLectureIdCallback getLectureIdCallback,String table,String field,String documentId){
+            getValueCallback getLectureIdCallback,String table,String field,String documentId){
         firebaseFirestore.collection(table)
         .whereEqualTo(FieldPath.documentId(),documentId)
         .get()
@@ -45,5 +45,30 @@ public class DataSeeds {
                }
            }
         );
+    }
+
+    public interface getTheValueByFieldCallBack {
+        void onCallback(String fieldValues);
+    }
+
+    public void getFiledValue(
+            getTheValueByFieldCallBack getTheValueByFieldCallBack,String table,String field,
+            String value){
+        firebaseFirestore.collection(table)
+            .whereEqualTo(field,value)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                   @Override
+                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                       if(task.isSuccessful()){
+
+                           for (QueryDocumentSnapshot document : task.getResult()) {
+                               result = document.getId();
+                           }
+                           getTheValueByFieldCallBack.onCallback(result);
+                       }
+                   }
+               }
+            );
     }
 }

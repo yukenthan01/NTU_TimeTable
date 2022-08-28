@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
-public class AdminDashboard extends AppCompatActivity {
+public class StudentDashboardActivity extends AppCompatActivity {
     ImageView profileImageView;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
@@ -25,8 +25,7 @@ public class AdminDashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_dashboard);
-
+        setContentView(R.layout.activity_student_dashboard);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -41,7 +40,7 @@ public class AdminDashboard extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
 //                if (finalUserRole.equals("admin")){
 //                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.admin_menu);
+                navigationView.inflateMenu(R.menu.student_menu);
 
 //                }
             }
@@ -52,12 +51,6 @@ public class AdminDashboard extends AppCompatActivity {
                 int id = item.getItemId();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 switch (id) {
-                    case R.id.nav_timetable:
-                        toolbar.setTitle(R.string.create_timetable);
-                        item.setChecked(true);
-                        replaceFragment(new TimeTableCreateFragment());
-                        break;
-
                     case R.id.nav_view_timetable:
                         toolbar.setTitle("View Timetable");
                         replaceFragment(new ViewTimeTableFragment());

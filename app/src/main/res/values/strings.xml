@@ -38,4 +38,14 @@
     <string name="termStartDate">Term Start Date</string>
     <string name="termEndDate">Term End Date</string>
     <string name="batchNumber">Batch Number</string>
+
+    <!-- TODO: User Resistration -->
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="email">Email</string>
+    <string name="universityid">University ID</string>
+    <string name="userRole">Please select the user role</string>
+    <string name="user_register">User Registration</string>
+    <string name="degreeLevel">Degree Level</string>
+    <string name="course">Course</string>
 </resources>

@@ -25,12 +25,16 @@
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_login_acticity.xml" value="0.1" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_main.xml" value="0.1859375" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_student_dashboard.xml" value="0.2" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_time_table_create.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_user_registration.xml" value="0.1" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_view_time_table.xml" value="0.2" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/list_item.xml" value="0.2" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/nav_header.xml" value="0.2" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/time_table_list.xml" value="0.22" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/menu/admin_menu.xml" value="0.5" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/menu/student_menu.xml" value="0.2" />
       </map>
     </option>
   </component>
