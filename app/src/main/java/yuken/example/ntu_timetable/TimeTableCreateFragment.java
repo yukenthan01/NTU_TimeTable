@@ -643,8 +643,6 @@ public class TimeTableCreateFragment extends Fragment {
                             Map<String,Object> studentIdModuleId = new HashMap<>();
 
                             for(int i = 0; i < fieldValues.size(); i++){
-
-                                Log.d("stuids", "onCallback: "+fieldValues.get(i));
                                 studentIdModuleId.put("timetableId",documentReference.getId());
                                 studentIdModuleId.put("studentId",fieldValues.get(i));
                                 manyToManyInsert(studentIdModuleId,"studentTimetableId");

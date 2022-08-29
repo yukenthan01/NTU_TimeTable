@@ -3,6 +3,7 @@ package yuken.example.ntu_timetable;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -53,7 +53,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.nav_view_timetable:
                         toolbar.setTitle("View Timetable");
-                        replaceFragment(new ViewTimeTableFragment());
+                        replaceFragment(new StudentTimetableFragment());
                         break;
                     case R.id.nav_assignment:
                         toolbar.setTitle(R.string.view_categories);
