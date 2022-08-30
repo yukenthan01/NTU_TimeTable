@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class AssessmentViewAdapter extends FirestoreRecyclerAdapter<AssessmentModule,
         AssessmentViewAdapter.myViewHolder> {
@@ -38,7 +40,16 @@ public class AssessmentViewAdapter extends FirestoreRecyclerAdapter<AssessmentMo
                 holder.moduleList.setText("Module :-"+fieldValues);
             }
         },"module","module",assessmentModule.getModuleId());
-
+        holder.editList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DocumentSnapshot snapshot = getSnapshots().getSnapshot(holder.getAdapterPosition());
+                snapshot.getId();
+                AppCompatActivity activity =  (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,
+                        new AssessmentScheduleFragment(assessmentModule,snapshot.getId())).addToBackStack(null).commit();
+            }
+        });
     }
 
     @NonNull
@@ -51,13 +62,14 @@ public class AssessmentViewAdapter extends FirestoreRecyclerAdapter<AssessmentMo
     }
 
     public class myViewHolder extends RecyclerView.ViewHolder {
-        TextView creditList,dueDateTimeList,publishDateTimeList,moduleList;
+        TextView creditList,dueDateTimeList,publishDateTimeList,moduleList,editList;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             creditList = itemView.findViewById(R.id.creditList);
             dueDateTimeList = itemView.findViewById(R.id.dueDateTimeList);
             publishDateTimeList = itemView.findViewById(R.id.publishDateTimeList);
             moduleList = itemView.findViewById(R.id.moduleList);
+            editList = itemView.findViewById(R.id.editList);
 
         }
     }

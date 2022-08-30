@@ -51,10 +51,22 @@ public class AssessmentScheduleFragment extends Fragment {
     private int year, month, dayDate, hour, minute;
     Calendar calendar;
     DataSeeds dataSeeds = new DataSeeds();
+    String mo_moduleId,mo_credits,mo_publishedDate,mo_publishedTime,mo_dueDate,mo_dueTime,
+    mo_status,mo_lecturerId,mo_DocumentId;
     public AssessmentScheduleFragment() {
         // Required empty public constructor
     }
-
+    public AssessmentScheduleFragment(AssessmentModule assessmentModule,String documentId) {
+        mo_moduleId = assessmentModule.getModuleId();
+        mo_credits = assessmentModule.getCredits();
+        mo_publishedDate = assessmentModule.getPublishedDate();
+        mo_publishedTime = assessmentModule.getPublishedTime();
+        mo_dueDate = assessmentModule.getDueDate();
+        mo_dueTime = assessmentModule.dueTime;
+        mo_lecturerId = assessmentModule.getLecturerId();
+        mo_status = assessmentModule.getStatus();
+        mo_DocumentId = documentId;
+    }
     // TODO: Rename and change types and number of parameters
     public static AssessmentScheduleFragment newInstance(String param1, String param2) {
         AssessmentScheduleFragment fragment = new AssessmentScheduleFragment();
@@ -90,6 +102,34 @@ public class AssessmentScheduleFragment extends Fragment {
 
         moduleArrayAdapter = new ArrayAdapter<>(view.getContext(),R.layout.list_item,lecturerModuleId);
         moduleId.setAdapter(moduleArrayAdapter);
+        if(mo_DocumentId !="" )
+        {
+            credits.setText(mo_credits);
+            publishedDate.setText(mo_publishedTime);
+            publishedTime.setText(mo_publishedTime);
+            dueDate.setText(mo_dueDate);
+            dueTime.setText(mo_dueTime);
+            dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
+                @Override
+                public void onCallback(String fieldValues) {
+                    moduleId.setText(fieldValues);
+                    //batchNumber.setAdapter(batchArrayAdapter);
+                }
+            },"module","module",mo_moduleId);
+
+            moduleId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    moduleArrayAdapter = new ArrayAdapter<>(view.getContext(),R.layout.list_item,lecturerModuleId);
+                    moduleId.setAdapter(moduleArrayAdapter);
+                }
+            });
+
+        }
+
+
+
+
         publishedDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -117,10 +157,51 @@ public class AssessmentScheduleFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveAssessment();
+                if(mo_moduleId != ""){
+                    updateAssessment(mo_DocumentId);
+                }
+                else {
+                    saveAssessment();
+                }
             }
         });
         return view;
+    }
+    public void updateAssessment(String documentId){
+        Log.d("TAG", "updateAssessment: "+documentId);
+        if(validations.isEmpty(credits))
+        {
+            dataSeeds.getFiledValue(new DataSeeds.getTheValueByFieldCallBack() {
+                @Override
+                public void onCallback(String fieldValues) {
+                    AssessmentModule assessmentModule = new AssessmentModule
+                            (
+                                    fieldValues,
+                                    credits.getText().toString(),
+                                    publishedDate.getText().toString(),
+                                    publishedTime.getText().toString(),
+                                    dueDate.getText().toString(),
+                                    dueTime.getText().toString(),
+                                    firebaseAuth.getUid(),
+                                    "active"
+                            );
+                    firebaseFirestore.collection("assessments").document(documentId).set(assessmentModule).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(getContext(),"Updated successful",Toast.LENGTH_SHORT).show();
+                            reloadFragment(new AssessmentViewFragment());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                            reloadFragment(new AssessmentScheduleFragment());
+                        }
+                    });
+                }
+            },"module","module",moduleId.getText().toString());
+
+        }
     }
     public void saveAssessment()
     {
