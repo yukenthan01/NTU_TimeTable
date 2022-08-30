@@ -55,15 +55,11 @@ public class StudentDashboardActivity extends AppCompatActivity {
                         toolbar.setTitle("View Timetable");
                         replaceFragment(new StudentTimetableFragment());
                         break;
-                    case R.id.nav_assignment:
-                        toolbar.setTitle(R.string.view_categories);
-                        item.setChecked(true);
-                        //replaceFragment(new ViewCategoryFragment());
-                        break;
+
                     case R.id.nav_view_assignment:
-                        toolbar.setTitle(R.string.tittle_profile);
+                        toolbar.setTitle("Assessment Schedule");
                         item.setChecked(true);
-                        //replaceFragment(new ProfileFragment());
+                        replaceFragment(new StudentAssessmentViewFragment());
                         break;
 
                     case R.id.nav_register:

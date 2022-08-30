@@ -28,12 +28,17 @@
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_login_acticity.xml" value="0.1" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_main.xml" value="0.1859375" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/activity_student_dashboard.xml" value="0.2" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/assessment_calendar_item.xml" value="0.425" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/assessment_dialog_inform.xml" value="0.4239583333333333" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/assessment_row_addapter.xml" value="0.4239583333333333" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/assessments_list.xml" value="0.1" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/cal_item.xml" value="0.2" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/calendaer_item.xml" value="0.4239583333333333" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/dialog_inform.xml" value="0.22" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_assessment_schedule.xml" value="0.425" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_assessment_view.xml" value="0.18115942028985507" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_student_assessment_view.xml" value="0.425" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_student_timetable.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_time_table_create.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/kuken/AndroidStudioProjects/NTU_TimeTable/app/src/main/res/layout/fragment_user_registration.xml" value="0.1" />

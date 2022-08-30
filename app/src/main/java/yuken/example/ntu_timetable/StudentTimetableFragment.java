@@ -247,6 +247,7 @@ public class StudentTimetableFragment extends Fragment {
                                                                               document2.getString("batchNo")
                                                                       )
                                                               );
+                                                              refreshCalendar();
                                                           }
                                                       },"module","module",document2.getString("moduleId"));
 
@@ -263,6 +264,7 @@ public class StudentTimetableFragment extends Fragment {
                }
            }
             );
+
     }
     protected void setNextMonth() {
         if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMaximum(GregorianCalendar.MONTH)) {
