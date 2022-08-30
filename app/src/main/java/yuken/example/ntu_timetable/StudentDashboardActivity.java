@@ -39,7 +39,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerLayout.openDrawer(GravityCompat.START);
 //                if (finalUserRole.equals("admin")){
-//                    navigationView.getMenu().clear();
+                    navigationView.getMenu().clear();
                 navigationView.inflateMenu(R.menu.student_menu);
 
 //                }

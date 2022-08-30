@@ -67,7 +67,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimeTableCreateFragment extends Fragment {
     String mo_lecturerId,mo_moduleId,mo_date,mo_startTime,mo_endTime,mo_classType,mo_location,mo_batchNo,mo_status,
-            mo_termStartDate,mo_termEndDate,mo_documentID;
+            mo_termStartDate,mo_termEndDate,mo_documentID =  null;
     private TextInputEditText txtdate,txtStartTime,txtEndTimePicker,location,termStartDate,
             termEndDate;
     private Button btnsubmit;
@@ -304,7 +304,7 @@ public class TimeTableCreateFragment extends Fragment {
         btnsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mo_documentID == ""){
+                if(mo_documentID == null){
                     getDocumentIdByName(new getDocumentIdByNameCallBack() {
                         @Override
                         public void onCallback(String documentId) {
@@ -693,10 +693,22 @@ public class TimeTableCreateFragment extends Fragment {
                     currentDate = simpleDateFormat.parse(date);
                     Format f = new SimpleDateFormat("EEEE");
                     String day = f.format(currentDate);
-                    Log.d("asIF", "empty true"+timetable);
+
                     if (simpleDateFormat.parse(date).after(startDateTerm) && simpleDateFormat.parse(date).before(endDateTerm) && !day.equals("Saturday")&& !day.equals("Sunday")) {
                         // Insert term data with loop
-                        timetable.put("date",date);
+                        String[] parts = date.split("-");
+                        String finalDate ;
+                        if( Integer.parseInt(parts[0].replaceAll("^0+", "")) <= 9 )
+                        {
+                            parts[0] = "0"+Integer.parseInt(parts[0].replaceAll("^0+", ""));
+                        }
+                        if (Integer.parseInt(parts[1].replaceAll("^0+", "")) <= 9)
+                        {
+                            parts[1] = "0"+Integer.parseInt(parts[1].replaceAll("^0+", ""));
+                        }
+                        finalDate = parts[2]+"-"+parts[1]+"-"+parts[0];
+                        timetable.put("date",finalDate);
+
                         firebaseFirestore.collection("timetable").add(timetable).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {

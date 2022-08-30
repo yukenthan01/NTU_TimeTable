@@ -48,7 +48,7 @@ public class StudentTimetableFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     DataSeeds dataSeeds = new DataSeeds();
     String lectureName,moduleName ;
-
+    Map<String,Object> names = new HashMap<>();
 
     public StudentTimetableFragment() {
         // Required empty public constructor
@@ -162,30 +162,31 @@ public class StudentTimetableFragment extends Fragment {
                                               @Override
                                               public void onCallback(String fieldValues) {
                                                   lectureName = fieldValues;
-
+                                                  names.put("lectureName",fieldValues);
                                                   dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
                                                       @Override
                                                       public void onCallback(String fieldValues) {
-
                                                           moduleName = fieldValues;
-                                                          txtdata.setVisibility(View.GONE);
-                                                          HomeCollection.date_collection_arr.add(
-                                                                  new HomeCollection(
-                                                                          lectureName,
-                                                                          moduleName,
-                                                                          document2.getString("date"),
-                                                                          document2.getString("startTime"),
-                                                                          document2.getString("endTime"),
-                                                                          document2.getString("classType"),
-                                                                          document2.getString("location"),
-                                                                          document2.getString("batchNo")
-                                                                  )
-                                                          );
+                                                          names.put("moduleName",fieldValues);
+
                                                       }
                                                   },"module","module",document2.getString("moduleId"));
 
                                               }
                                           },"users","firstname",document2.getString("lecturerId"));
+                                          txtdata.setVisibility(View.GONE);
+                                          HomeCollection.date_collection_arr.add(
+                                                  new HomeCollection(
+                                                          names.get("lectureName").toString(),
+                                                          names.get("moduleName").toString(),
+                                                          document2.getString("date"),
+                                                          document2.getString("startTime"),
+                                                          document2.getString("endTime"),
+                                                          document2.getString("classType"),
+                                                          document2.getString("location"),
+                                                          document2.getString("batchNo")
+                                                  )
+                                          );
 
                                       }
 

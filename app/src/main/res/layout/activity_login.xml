@@ -52,7 +52,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColor="@color/placeHolder"
-                    android:text="kukenthan1@gmail.com"
+
 
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -71,7 +71,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:textColor="@color/placeHolder"
-                    android:text="0003698"/>
+                    />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 style="@style/viewParent"

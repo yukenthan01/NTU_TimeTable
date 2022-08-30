@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TimeTableModel {
-    String lecturerId,moduleId,date,startTime,endTime,classType,location,batchNo,status,
+    String lecturerId,moduleId,dates,startTime,endTime,classType,location,batchNo,status,
     termStartDate,termEndDate;
     DataSeeds dataSeeds = new DataSeeds();
     Map<String,Object> lectureName = new HashMap<>();;
@@ -17,10 +17,10 @@ public class TimeTableModel {
 
     }
 
-    public TimeTableModel(String lecturerId, String moduleId, String date, String startTime, String endTime, String classType, String location, String batchNo, String status, String termStartDate, String termEndDate) {
+    public TimeTableModel(String lecturerId, String moduleId, String dates, String startTime, String endTime, String classType, String location, String batchNo, String status, String termStartDate, String termEndDate) {
         this.lecturerId = lecturerId;
         this.moduleId = moduleId;
-        this.date = date;
+        this.dates = dates;
         this.startTime = startTime;
         this.endTime = endTime;
         this.classType = classType;
@@ -51,10 +51,10 @@ public class TimeTableModel {
         this.moduleId = moduleId;
     }
 
-    public String getDate() {return date;}
+    public String getDate() {return dates;}
 
     public void setDate(String date) {
-        this.date = date;
+        this.dates = date;
     }
 
     public String getStartTime() {
