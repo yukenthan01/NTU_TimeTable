@@ -1,3 +1,5 @@
+
+
 package yuken.example.ntu_timetable;
 
 import android.content.SharedPreferences;
@@ -79,7 +81,18 @@ public class StudentTimetableFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_student_timetable, container, false);
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
-        getTimeTable();
+        dataSeeds.checkUserLevel(new DataSeeds.callBackUserLevel() {
+            @Override
+            public void onCallback(String userRole) {
+               if( userRole.equals("lecturer"))
+               {
+                   getLecturerTimeTable();
+               } else
+               {
+                   getTimeTable();
+               }
+            }
+        });
 
         cal_month = (GregorianCalendar) GregorianCalendar.getInstance();
         cal_month_copy = (GregorianCalendar) cal_month.clone();
@@ -131,10 +144,61 @@ public class StudentTimetableFragment extends Fragment {
             }
 
         });
+
         return view;
     }
+    public void getLecturerTimeTable(){
+       firebaseFirestore.collection("timetable").whereEqualTo("lecturerId",
+                       firebaseAuth.getUid())
+           .get()
+           .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+              @Override
+              public void onComplete(@NonNull Task<QuerySnapshot> task2) {
 
+                  if(task2.isSuccessful()){
+                      for (QueryDocumentSnapshot document2 :
+                              task2.getResult()) {
+
+                          dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
+                              @Override
+                              public void onCallback(String fieldValues) {
+                                  lectureName = fieldValues;
+                                  names.put("lectureName",fieldValues);
+                                  dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
+                                      @Override
+                                      public void onCallback(String fieldValues) {
+                                          moduleName = fieldValues;
+                                          names.put("moduleName",fieldValues);
+
+                                          txtdata.setText("dsffs");
+                                          txtdata.setVisibility(View.GONE);
+                                          HomeCollection.date_collection_arr.add(
+                                                  new HomeCollection(
+                                                          names.get("lectureName").toString(),
+                                                          names.get("moduleName").toString(),
+                                                          document2.getString("date"),
+                                                          document2.getString("startTime"),
+                                                          document2.getString("endTime"),
+                                                          document2.getString("classType"),
+                                                          document2.getString("location"),
+                                                          document2.getString("batchNo")
+                                                  )
+                                          );
+                                      }
+                                  },"module","module",document2.getString("moduleId"));
+
+                              }
+                          },"users","firstname",document2.getString("lecturerId"));
+
+                      }
+
+                  }
+              }
+          }
+       );
+    }
     public void getTimeTable(){
+
         timetableIds = new ArrayList<String>();
         firebaseFirestore.collection("studentTimetableId")
             .whereEqualTo("studentId",firebaseUser.getUid())
@@ -151,53 +215,54 @@ public class StudentTimetableFragment extends Fragment {
                        firebaseFirestore.collection("timetable").whereIn(FieldPath.documentId(),timetableIds)
                            .get()
                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                              @Override
-                              public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                  @Override
+                                  public void onComplete(@NonNull Task<QuerySnapshot> task2) {
 
-                                  if(task2.isSuccessful()){
-                                      for (QueryDocumentSnapshot document2 :
-                                              task2.getResult()) {
+                                      if(task2.isSuccessful()){
+                                          for (QueryDocumentSnapshot document2 :
+                                                  task2.getResult()) {
 
-                                          dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
-                                              @Override
-                                              public void onCallback(String fieldValues) {
-                                                  lectureName = fieldValues;
-                                                  names.put("lectureName",fieldValues);
-                                                  dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
-                                                      @Override
-                                                      public void onCallback(String fieldValues) {
-                                                          moduleName = fieldValues;
-                                                          names.put("moduleName",fieldValues);
+                                              dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
+                                                  @Override
+                                                  public void onCallback(String fieldValues) {
+                                                      lectureName = fieldValues;
+                                                      names.put("lectureName",fieldValues);
+                                                      dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
+                                                          @Override
+                                                          public void onCallback(String fieldValues) {
+                                                              moduleName = fieldValues;
+                                                              names.put("moduleName",fieldValues);
 
-                                                      }
-                                                  },"module","module",document2.getString("moduleId"));
+                                                              txtdata.setText("dsffs");
+                                                              txtdata.setVisibility(View.GONE);
+                                                              HomeCollection.date_collection_arr.add(
+                                                                      new HomeCollection(
+                                                                              names.get("lectureName").toString(),
+                                                                              names.get("moduleName").toString(),
+                                                                              document2.getString("date"),
+                                                                              document2.getString("startTime"),
+                                                                              document2.getString("endTime"),
+                                                                              document2.getString("classType"),
+                                                                              document2.getString("location"),
+                                                                              document2.getString("batchNo")
+                                                                      )
+                                                              );
+                                                          }
+                                                      },"module","module",document2.getString("moduleId"));
 
-                                              }
-                                          },"users","firstname",document2.getString("lecturerId"));
-                                          txtdata.setVisibility(View.GONE);
-                                          HomeCollection.date_collection_arr.add(
-                                                  new HomeCollection(
-                                                          names.get("lectureName").toString(),
-                                                          names.get("moduleName").toString(),
-                                                          document2.getString("date"),
-                                                          document2.getString("startTime"),
-                                                          document2.getString("endTime"),
-                                                          document2.getString("classType"),
-                                                          document2.getString("location"),
-                                                          document2.getString("batchNo")
-                                                  )
-                                          );
+                                                  }
+                                              },"users","firstname",document2.getString("lecturerId"));
+
+                                          }
 
                                       }
-
                                   }
                               }
-                          }
-                       );
+                           );
                    }
                }
            }
-        );
+            );
     }
     protected void setNextMonth() {
         if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMaximum(GregorianCalendar.MONTH)) {

@@ -10,7 +10,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -23,7 +28,44 @@ import java.util.List;
 
 public class DataSeeds {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String result  = null;
+    String finalUserRole ;
+    public void checkUserLevel(callBackUserLevel callBackUserLevel){
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        String uid = firebaseAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(uid);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.getString("userRole").toString().equals("admin")){
+                    finalUserRole = "admin";
+                    callBackUserLevel.onCallback(finalUserRole);
+                }
+                else if(documentSnapshot.getString("userRole") .equals("student")){
+                    finalUserRole = "student";
+                    callBackUserLevel.onCallback(finalUserRole);
+
+                }
+                else if(documentSnapshot.getString("userRole") .equals("lecturer")){
+                    finalUserRole = "lecturer";
+                    callBackUserLevel.onCallback(finalUserRole);
+
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAGfaill", "onFailure: "+e.getMessage().toString());
+            }
+        });
+    }
+    public interface callBackUserLevel {
+        void onCallback(String userRole);
+    }
     public interface getValueCallback {
         void onCallback(String fieldValues);
     }

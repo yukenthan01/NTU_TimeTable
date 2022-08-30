@@ -91,7 +91,14 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }
                 else if(documentSnapshot.getString("userRole") .equals("student")){
-                    Toast.makeText(LoginActivity.this,"Login SuccessfullStudent",
+                    Toast.makeText(LoginActivity.this,"Login Successfully ",
+                            Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),StudentDashboardActivity.class));
+                    finish();
+                }
+                else if(documentSnapshot.getString("userRole") .equals("lecturer"))
+                {
+                    Toast.makeText(LoginActivity.this,"Login Successfully",
                             Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(),StudentDashboardActivity.class));
                     finish();

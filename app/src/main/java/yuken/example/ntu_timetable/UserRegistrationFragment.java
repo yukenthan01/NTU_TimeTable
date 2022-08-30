@@ -53,7 +53,7 @@ public class UserRegistrationFragment extends Fragment {
     View view;
     private TextInputEditText firstname,lastname,email,batchId,universityId;
     private AutoCompleteTextView userRole,degree,course;
-    private String [] userRoles = {"lecturer","student"};
+    private String [] userRoles = {"Lecturer","Student"};
     private String [] degrees = {"UG","PG","PhD"};
     private Button btnSubmit;
     private ArrayAdapter<String> userRoleAdapter,degreeAdapter,courseAdapter;
@@ -117,7 +117,7 @@ public class UserRegistrationFragment extends Fragment {
         userRole.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(userRole.getText().toString().equals("lecturer"))
+                if(userRole.getText().toString().equals("Lecturer"))
                 {
                     degree.setText("-");
                     degreeText.setVisibility(View.GONE);
@@ -165,63 +165,117 @@ public class UserRegistrationFragment extends Fragment {
 
 
         if (isEmptyCheckedFirstname && isEmptyCheckedLastname && isEmptyCheckedEmail && isEmptyCheckedBatchId && isEmptyCheckedUniversityId) {
-            //String batchId,email,firstname,lastname,status,universityId,userRole;
+            if(userRole.getText().toString().equals("Lecturer")) {
 
-            dataSeeds.getFiledValue(new DataSeeds.getTheValueByFieldCallBack() {
-                @Override
-                public void onCallback(String fieldValues) {
-
-                    userModel = new UserModel(
-                        batchId.getText().toString(),
+                userModel = new UserModel(
+                        "",
                         email.getText().toString(),
                         firstname.getText().toString(),
                         lastname.getText().toString(),
                         "active",
                         universityId.getText().toString(),
-                        userRole.getText().toString(),
-                        fieldValues.toString()
+                        userRole.getText().toString().toLowerCase(),
+                        ""
+                );
+                random = new Random();
+                String randomPassword = String.format("%07d", random.nextInt(10000));
+                //firebase store the details
+                firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(),
+                        randomPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
 
-                    );
-                    random = new Random();
-                    String randomPassword = String.format("%07d", random.nextInt(10000));
-                    //firebase store the details
-                    firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(),
-                            randomPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
+                        userId = firebaseAuth.getCurrentUser().getUid();
 
-                            userId = firebaseAuth.getCurrentUser().getUid();
+                        DocumentReference documentReference = firebaseFirestore.collection(
+                                "users").document(userId);
+                        documentReference.set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                passwordSentToMail(email.getText().toString(), randomPassword.toString());
+                                Toast.makeText(getActivity(), "User Added Successfully",
+                                        Toast.LENGTH_SHORT).show();
+                                reloadFragment(new UserRegistrationFragment());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("TAG", "onSuccess: " + e.getMessage());
+                                Toast.makeText(getActivity(), e.getMessage().toString(),
+                                        Toast.LENGTH_SHORT).show();
 
-                            DocumentReference documentReference = firebaseFirestore.collection(
-                                    "users").document(userId);
-                            documentReference.set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    passwordSentToMail(email.getText().toString(),randomPassword.toString());
-                                    Toast.makeText(getActivity(),"User Added Successfully",
-                                            Toast.LENGTH_SHORT).show();
-                                    reloadFragment(new UserRegistrationFragment());
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "onSuccess: "+e.getMessage());
-                                    Toast.makeText(getActivity(),e.getMessage().toString(),
-                                            Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage().toString(),
+                                Toast.LENGTH_LONG).show();
 
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(),e.getMessage().toString(),
-                                    Toast.LENGTH_LONG).show();
+                    }
+                });
 
-                        }
-                    });
-                }
-            },"course","course",course.getText().toString());
+            }
+            else {
+                dataSeeds.getFiledValue(new DataSeeds.getTheValueByFieldCallBack() {
+                    @Override
+                    public void onCallback(String fieldValues) {
+
+                        userModel = new UserModel(
+                                batchId.getText().toString(),
+                                email.getText().toString(),
+                                firstname.getText().toString(),
+                                lastname.getText().toString(),
+                                "active",
+                                universityId.getText().toString(),
+                                userRole.getText().toString().toLowerCase(),
+                                fieldValues.toString()
+
+                        );
+                        random = new Random();
+                        String randomPassword = String.format("%07d", random.nextInt(10000));
+                        //firebase store the details
+                        firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(),
+                                randomPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+
+                                userId = firebaseAuth.getCurrentUser().getUid();
+
+                                DocumentReference documentReference = firebaseFirestore.collection(
+                                        "users").document(userId);
+                                documentReference.set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        passwordSentToMail(email.getText().toString(), randomPassword.toString());
+                                        Toast.makeText(getActivity(), "User Added Successfully",
+                                                Toast.LENGTH_SHORT).show();
+                                        reloadFragment(new UserRegistrationFragment());
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("TAG", "onSuccess: " + e.getMessage());
+                                        Toast.makeText(getActivity(), e.getMessage().toString(),
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), e.getMessage().toString(),
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+                    }
+                }, "course", "course", course.getText().toString());
+            }
+
+
         } else {
 //            errorView.setText("Please Fill in the blanks!!");
 //            errorView.setVisibility(View.VISIBLE);
