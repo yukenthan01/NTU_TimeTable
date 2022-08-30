@@ -48,4 +48,11 @@
     <string name="user_register">User Registration</string>
     <string name="degreeLevel">Degree Level</string>
     <string name="course">Course</string>
+    <string name="credit_score">Credit Score</string>
+    <string name="publish_date">Publish Date</string>
+    <string name="publish_time">Publish Time</string>
+    <string name="submission_date">Submission Date</string>
+    <string name="submission_time">Submission Time</string>
+    <string name="assessment_schedule">Assessment Schedule</string>
+    <string name="view_assessment">View Assessment</string>
 </resources>

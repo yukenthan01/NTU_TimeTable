@@ -42,7 +42,7 @@ public class LecturerDashboardActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
 //                if (finalUserRole.equals("admin")){
                 navigationView.getMenu().clear();
-                navigationView.inflateMenu(R.menu.admin_menu);
+                navigationView.inflateMenu(R.menu.lecturer_menu);
 
 //                }
             }
@@ -53,31 +53,25 @@ public class LecturerDashboardActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 switch (id) {
-                    case R.id.nav_timetable:
-                        toolbar.setTitle(R.string.create_timetable);
-                        item.setChecked(true);
-                        replaceFragment(new TimeTableCreateFragment());
-                        break;
-
                     case R.id.nav_view_timetable:
                         toolbar.setTitle("View Timetable");
                         replaceFragment(new ViewTimeTableFragment());
                         break;
                     case R.id.nav_assignment:
-                        toolbar.setTitle(R.string.view_categories);
+                        toolbar.setTitle(R.string.assessment_schedule);
                         item.setChecked(true);
-                        //replaceFragment(new ViewCategoryFragment());
+                        replaceFragment(new AssessmentScheduleFragment());
                         break;
                     case R.id.nav_view_assignment:
-                        toolbar.setTitle(R.string.tittle_profile);
+                        toolbar.setTitle(R.string.view_assessment);
                         item.setChecked(true);
-                        //replaceFragment(new ProfileFragment());
+                        replaceFragment(new AssessmentViewFragment());
                         break;
 
                     case R.id.nav_register:
                         toolbar.setTitle(R.string.user_register);
                         item.setChecked(true);
-                        replaceFragment(new UserRegistrationFragment());
+                        //replaceFragment(new UserRegistrationFragment());
                         break;
                     case R.id.logout:
                         item.setChecked(true);

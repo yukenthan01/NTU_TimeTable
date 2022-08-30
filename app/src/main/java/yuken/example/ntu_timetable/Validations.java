@@ -3,9 +3,13 @@ package yuken.example.ntu_timetable;
 import android.util.Patterns;
 import android.widget.EditText;
 
-public class Validations {
-    Boolean valid;
+import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.List;
+
+public class Validations {
+    Boolean isEmpty ;
+    Boolean valid;
     public boolean isEmpty(EditText textField){
 
         if(!textField.getText().toString().isEmpty()){
@@ -15,6 +19,19 @@ public class Validations {
             valid = false;
         }
         return valid;
+    }
+    public boolean isEmptyAll(List<TextInputEditText> textField)
+    {
+        for (int i = 0; i <= textField.size(); i++)
+        {
+            if(!textField.get(i).getText().toString().isEmpty()){
+                isEmpty = true;
+            }else {
+                textField.get(i).setError("Please fill all details!!");
+                isEmpty = false;
+            }
+        }
+        return isEmpty;
     }
 
 }

@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     Toast.makeText(LoginActivity.this,"Login Successfully",
                             Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),StudentDashboardActivity.class));
+                    startActivity(new Intent(getApplicationContext(),LecturerDashboardActivity.class));
                     finish();
                 }
             }

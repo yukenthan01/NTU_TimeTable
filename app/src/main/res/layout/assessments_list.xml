@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#FF717171"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        android:layout_marginTop="10dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/moduleList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/ic_baseline_laptop_24"
+                android:drawablePadding="5dp"
+                android:text="Module"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/publishDateTimeList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/moduleList"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/ic_baseline_calendar_month_24"
+                android:drawablePadding="5dp"
+                android:text="Publish Date and Time :- "
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/dueDateTimeList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/publishDateTimeList"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/ic_baseline_calendar_month_24"
+                android:drawablePadding="5dp"
+                android:text="Submission Date and Time :- "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/creditList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dueDateTimeList"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/ic_baseline_credit_score_24"
+                android:drawablePadding="5dp"
+                android:text="Credit Score :- "
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/editList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/creditList"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/creditList"
+                android:drawableLeft="@drawable/ic_outline_edit_24"
+                android:drawablePadding="5dp"
+                android:text="Edit"
+                android:textSize="16sp" />
+
+
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_below=""-->
+<!--                    android:background="@color/white" />-->
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>
