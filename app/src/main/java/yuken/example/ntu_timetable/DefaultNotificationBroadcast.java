@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,26 +37,138 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    List<String> timetableIds;
+    List<String> timetableIds,studentModuleIds;
     Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     @Override
     public void onReceive(Context context, Intent intent) {
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
-//                "timeTableNotification").setSmallIcon(R.drawable.ic_baseline_calendar_month_24).setContentTitle("New changed in the timetable").setContentText("Please check you timetable").setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//        NotificationManagerCompat notificationManagerCompat =
-//                NotificationManagerCompat.from(context);
-//        notificationManagerCompat.notify(200,builder.build());
-
         /////
         Intent i = new Intent(context,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,i,PendingIntent.FLAG_MUTABLE);
-
-
         /////
-        sendChnagedNotificationSchedule(context,intent,pendingIntent);
 
+
+        //sendChangedNotificationSchedule(context,intent,pendingIntent);
+        //dailyNotification(context,intent,pendingIntent);
+        assessmentNotification(context,intent,pendingIntent);
+    }
+    public void assessmentNotification(Context context, Intent intent,PendingIntent pendingIntent)
+    {
+        studentModuleIds = new ArrayList<>();
+        if(firebaseUser != null ){
+            firebaseFirestore.collection("studentModule")
+                .whereEqualTo("studentId",firebaseUser.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                studentModuleIds.add(document.getString("moduleId").toString());
+                            }
+                            firebaseFirestore.collection("assessments")
+                                .whereIn("moduleId", studentModuleIds)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+
+                                        if (task2.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document2 :
+                                                task2.getResult()) {
+
+                                                    if (checkDate(document2.getString("publishedDate")) && checkTime(document2.getString("publishedTime"))){
+                                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                                                                "timeTableNotification")
+                                                                .setSmallIcon(R.drawable.ic_sharp_add_alert_24)
+                                                                .setContentTitle("Assessment")
+                                                                .setContentText("New Assessment " +
+                                                                        "was Released")
+                                                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                                                .setSound(alarmSound)
+                                                                .setContentIntent(pendingIntent);
+
+                                                        NotificationManagerCompat notificationManagerCompat =
+                                                                NotificationManagerCompat.from(context);
+                                                        notificationManagerCompat.notify(200,builder.build());
+                                                        notificationStatusUpdate(document2.getId());
+                                                    }
+                                                    else {
+                                                        Log.d("abcELse",
+                                                                "onComplete: ELSE" );
+                                                    }
+                                            }
+                                        }
+                                    }
+                            });
+                    }
+                }
+            });
+        }
+    }
+    public void dailyNotification(Context context, Intent intent,PendingIntent pendingIntent){
+        if(firebaseUser != null ){
+            firebaseFirestore.collection("studentTimetableId")
+                    .whereEqualTo("studentId",firebaseUser.getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                            if (task.isSuccessful()) {
+
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    timetableIds.add(document.getString("timetableId").toString());
+                                }
+                                firebaseFirestore.collection("timetable")
+                                        .whereIn(FieldPath.documentId(), timetableIds)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+
+                                                if (task2.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document2 :
+                                                            task2.getResult()) {
+
+                                                        String[] parts = document2.getString(
+                                                                "startTime").split(":");
+                                                        String finalTime ;
+                                                        int ti = Integer.parseInt(parts[0])-3;
+                                                        finalTime =
+                                                               Integer.toString(ti) +":"+ parts[1];
+
+                                                        if (checkDate(document2.getString("date")) && checkTime(finalTime)){
+                                                                NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                                                                        "timeTableNotification")
+                                                                        .setSmallIcon(R.drawable.ic_sharp_add_alert_24)
+                                                                        .setContentTitle("Timetable")
+                                                                        .setContentText("A Class " +
+                                                                                "was scheduled " +
+                                                                                "today")
+                                                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                                                        .setSound(alarmSound)
+                                                                        .setContentIntent(pendingIntent);
+
+                                                                NotificationManagerCompat notificationManagerCompat =
+                                                                        NotificationManagerCompat.from(context);
+                                                                notificationManagerCompat.notify(200,builder.build());
+                                                                notificationStatusUpdate(document2.getId());
+                                                        }
+                                                        else {
+                                                            Log.d("abcELse",
+                                                                    "onComplete: ELSE" );
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                    });
+        }
     }
     public void sendChnagedNotificationSchedule(Context context, Intent intent,
                                           PendingIntent pendingIntent){
@@ -86,8 +199,6 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
                                             task2.getResult()) {
 
                                         if (checkDate(document2.getString("date")) && checkTime(document2.getString("time"))){
-                                            Log.d("abc", "onComplete: " + document2.getString("time"));
-
                                             NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
                                                     "timeTableNotification")
                                                     .setSmallIcon(R.drawable.ic_sharp_add_alert_24)
@@ -102,10 +213,7 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
                                             notificationManagerCompat.notify(200,builder.build());
                                             notificationStatusUpdate(document2.getId());
                                         }
-                                        else {
-                                            Log.d("abcELse",
-                                                    "onComplete: " + document2.getString("time"));
-                                        }
+
                                     }
                                 }
                             }
@@ -154,7 +262,6 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
         return false;
     }
     public boolean checkTime(String time){
-
         SimpleDateFormat format = new SimpleDateFormat("HH:mm",Locale.ENGLISH);
         String currentDate = format.format(new Date());
         try {

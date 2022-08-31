@@ -92,26 +92,6 @@ public class StudentDashboardActivity extends AppCompatActivity {
 //                }
             }
         });
-
-        //////////////////////
-
-//        Intent intent = new Intent(getApplicationContext(),
-//                DefaultNotificationBroadcast.class);
-//        PendingIntent pendingIntent =
-//                PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-//
-//        AlarmManager alarmManager =
-//                null;
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
-//        }
-//
-//        long currentTimeInMilliSeconds = System.currentTimeMillis();
-//
-//        alarmManager.set(AlarmManager.RTC_WAKEUP,
-//                currentTimeInMilliSeconds, pendingIntent);
-
-        ///////////////////////////////////////////////////
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -158,7 +138,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
     {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            CharSequence name = "IForYouReminderChannel";
+            CharSequence name = "Timetable and Assessment";
             String description = "Channel for reminding the changes";
 
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
