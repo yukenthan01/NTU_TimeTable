@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminDashboard extends AppCompatActivity {
     ImageView profileImageView;
@@ -80,6 +81,7 @@ public class AdminDashboard extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         item.setChecked(true);
+                        FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(getApplicationContext(),
                                 LoginActivity.class);
                         startActivity(intent);

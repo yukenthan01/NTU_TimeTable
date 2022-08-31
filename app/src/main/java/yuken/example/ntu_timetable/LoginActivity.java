@@ -1,11 +1,14 @@
 package yuken.example.ntu_timetable;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -77,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     public void checkUserAccessLevel(String uid) {
-        Log.d("TAG123", "asd | " + uid);
+
         firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("users").document(uid);
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -110,5 +113,59 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(checkInternetStatus()){
+            if(currentUser != null){
+                checkUserAccessLevel(currentUser.getUid());
+            }
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(checkInternetStatus()){
+            if(currentUser != null){
+                checkUserAccessLevel(currentUser.getUid());
+            }
+        }
+    }
+    public boolean  checkInternetStatus() {
+        boolean internetCheck = false;
+        final ConnectivityManager connMgr = (ConnectivityManager)
+                this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnected () || mobile.isConnected ()) {
+            internetCheck = true;
+        } else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            internetCheck = false;
+            buildAlertMessageNoIntenet();
+        }
+        return  internetCheck;
+    }
+    private void buildAlertMessageNoIntenet() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your INTERNET seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

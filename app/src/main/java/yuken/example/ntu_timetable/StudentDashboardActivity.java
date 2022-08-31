@@ -7,8 +7,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,16 +26,53 @@ import android.widget.ImageView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.concurrent.TimeUnit;
 
 public class StudentDashboardActivity extends AppCompatActivity {
     ImageView profileImageView;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     View haderXml;
+    private WorkRequest notificationWorkRequest;
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_dashboard);
+        createNotificationChannel();
+//                notificationWorkRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+//         .build();
+        //long currentTimeInMilliSeconds = System.currentTimeMillis();
+
+//        notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class,
+//                15*60*1000,
+//                TimeUnit.MILLISECONDS)
+//                .build();
+//
+//        WorkManager
+//                .getInstance(this)
+//                .enqueue(notificationWorkRequest);
+        Intent intent = new Intent(getApplicationContext(),
+                DefaultNotificationBroadcast.class);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(getApplicationContext(), 0, intent,
+                        PendingIntent.FLAG_IMMUTABLE);
+
+
+        AlarmManager alarmManager =
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
+        }
+
+        long currentTimeInMilliSeconds = System.currentTimeMillis();
+
+//        alarmManager.set(AlarmManager.RTC_WAKEUP,
+//                currentTimeInMilliSeconds, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,currentTimeInMilliSeconds,10,
+                pendingIntent);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -45,6 +92,26 @@ public class StudentDashboardActivity extends AppCompatActivity {
 //                }
             }
         });
+
+        //////////////////////
+
+//        Intent intent = new Intent(getApplicationContext(),
+//                DefaultNotificationBroadcast.class);
+//        PendingIntent pendingIntent =
+//                PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        AlarmManager alarmManager =
+//                null;
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
+//        }
+//
+//        long currentTimeInMilliSeconds = System.currentTimeMillis();
+//
+//        alarmManager.set(AlarmManager.RTC_WAKEUP,
+//                currentTimeInMilliSeconds, pendingIntent);
+
+        ///////////////////////////////////////////////////
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -69,6 +136,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         item.setChecked(true);
+                        FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(getApplicationContext(),
                                 LoginActivity.class);
                         startActivity(intent);
@@ -85,5 +153,22 @@ public class StudentDashboardActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.commit();
+    }
+    private void createNotificationChannel()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            CharSequence name = "IForYouReminderChannel";
+            String description = "Channel for reminding the changes";
+
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel("timeTableNotification",name,
+                    importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

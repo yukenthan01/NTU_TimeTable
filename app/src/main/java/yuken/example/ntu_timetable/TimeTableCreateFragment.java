@@ -1,9 +1,14 @@
 package yuken.example.ntu_timetable;
 
+import static android.content.Context.ALARM_SERVICE;
+
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -355,6 +360,64 @@ public class TimeTableCreateFragment extends Fragment {
                                     timetable.put("status","active");
                                     timetable.put("termStartDate",termStartDate.getText().toString());
                                     timetable.put("termEndDate",termEndDate.getText().toString());
+                                    //Set the Notification for the event
+
+                                    String [] oldValues = new String[]{
+                                            mo_lecturerId,
+                                            mo_moduleId,
+                                            mo_date,
+                                            mo_startTime,
+                                            mo_endTime,
+                                            mo_classType,
+                                            mo_location
+                                    };
+                                    String [] newValues = new String[]{
+                                            documentIdCallback.get("lectureId").toString(),
+                                            documentIdCallback.get("moduleId").toString(),
+                                            txtdate.getText().toString(),
+                                            txtStartTime.getText().toString(),
+                                            txtEndTimePicker.getText().toString(),
+                                            type.getText().toString(),
+                                            location.getText().toString(),
+
+                                    };
+                                    String [] fields = new String[]{
+                                            "Lecturer",
+                                            "Module",
+                                            "Date " ,
+                                            "Start Time",
+                                            "End Time",
+                                            "Class Type",
+                                            "Location",
+                                    };
+                                    String changedValues = "";
+
+                                    for(int i = 0; i<oldValues.length; i++)
+                                    {
+                                        if(!oldValues[i].equals(newValues[i]))
+                                        {
+                                            changedValues = changedValues + fields[i]+ ", ";
+                                        }
+                                    }
+                                    Log.d("TAG", "onCallback: "+ changedValues );
+                                    if(!changedValues.isEmpty()){
+                                        Map<String,Object> alertData = new HashMap<>();
+                                        alertData.put("alertId",mo_documentID);
+                                        alertData.put("alertType","timetable");
+
+                                        alertData.put(
+                                                "message",
+                                                "Changes were made to these fields "+ changedValues +" Please " +
+                                                        "Check Your timetable");
+                                        alertData.put("date",
+                                                txtdate.getText().toString());
+                                        alertData.put("time",
+                                                txtStartTime.getText().toString());
+                                        alertData.put("status","active");
+
+                                        alertInsert(alertData);
+
+                                    }
                                     updateTimeTable(timetable);
                                 }
                             },"module","module",moduleId.getText().toString());
@@ -365,7 +428,19 @@ public class TimeTableCreateFragment extends Fragment {
         });
         return view;
     }
-
+    public void alertInsert(Map<String,Object> alertData){
+        firebaseFirestore.collection("notifications").add(alertData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                //Toast.makeText(getContext(),"Alert Insert",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "AlertonFailure: "+e.getMessage());
+            }
+        });
+    }
     //update time table
     public void updateTimeTable(Map<String,Object> timetable)
     {
