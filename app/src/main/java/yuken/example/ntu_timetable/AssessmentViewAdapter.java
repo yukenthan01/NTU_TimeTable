@@ -32,8 +32,6 @@ public class AssessmentViewAdapter extends FirestoreRecyclerAdapter<AssessmentMo
                         .getDueTime());
         holder.creditList.setText("Credit Score :- "+assessmentModule.getCredits());
 
-        Log.d("TAG", "queryRunner: "+holder);
-
         dataSeeds.getValueByField(new DataSeeds.getValueCallback() {
             @Override
             public void onCallback(String fieldValues) {

@@ -48,8 +48,8 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
         /////
 
 
-        //sendChangedNotificationSchedule(context,intent,pendingIntent);
-        //dailyNotification(context,intent,pendingIntent);
+        sendChangedNotificationSchedule(context,intent,pendingIntent);
+        dailyNotification(context,intent,pendingIntent);
         assessmentNotification(context,intent,pendingIntent);
     }
     public void assessmentNotification(Context context, Intent intent,PendingIntent pendingIntent)
@@ -95,10 +95,7 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
                                                         notificationManagerCompat.notify(200,builder.build());
                                                         notificationStatusUpdate(document2.getId());
                                                     }
-                                                    else {
-                                                        Log.d("abcELse",
-                                                                "onComplete: ELSE" );
-                                                    }
+
                                             }
                                         }
                                     }
@@ -157,10 +154,7 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
                                                                 notificationManagerCompat.notify(200,builder.build());
                                                                 notificationStatusUpdate(document2.getId());
                                                         }
-                                                        else {
-                                                            Log.d("abcELse",
-                                                                    "onComplete: ELSE" );
-                                                        }
+
                                                     }
                                                 }
                                             }
@@ -170,7 +164,7 @@ public class DefaultNotificationBroadcast extends BroadcastReceiver {
                     });
         }
     }
-    public void sendChnagedNotificationSchedule(Context context, Intent intent,
+    public void sendChangedNotificationSchedule(Context context, Intent intent,
                                           PendingIntent pendingIntent){
         timetableIds = new ArrayList<String>();
         if(firebaseUser != null ){

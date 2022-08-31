@@ -20,6 +20,27 @@ public class Validations {
         }
         return valid;
     }
+    public boolean isEmptyGoogle(TextInputEditText textField){
+
+        if(!textField.getText().toString().isEmpty()){
+            valid = true;
+        }else {
+            textField.setError("Please fill all details!!");
+            valid = false;
+        }
+        return valid;
+    }
+    public boolean isValidEmail(EditText textField){
+
+        if(!textField.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(textField.getText()).matches()){
+            valid = true;
+        }else {
+            textField.setError("Enter valid Email address !");
+            valid = false;
+        }
+
+        return valid;
+    }
     public boolean isEmptyAll(List<TextInputEditText> textField)
     {
         for (int i = 0; i <= textField.size(); i++)

@@ -30,7 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class LoginActivity extends AppCompatActivity {
     Boolean isEmptyChecked,isPasswordChecked; // for valida email adn password
     EditText username,password;
-    TextView errorTextView;
+    TextView errorTextView,forgetPassword;
     Button btnLogin;
     Validations validations;
 
@@ -48,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         username = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
+        forgetPassword = findViewById(R.id.forgetPassword);
+
         errorTextView = findViewById(R.id.invalidEmailPassword);
 
 //        Login CLick event start for the login process
@@ -76,6 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                // Toast.makeText(LoginActivity.this,username.getText().toString(),
                         //Toast.LENGTH_SHORT);
+            }
+        });
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ForgetPasswordActivity.class));
             }
         });
     }

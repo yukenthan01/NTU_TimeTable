@@ -52,7 +52,7 @@ public class AssessmentScheduleFragment extends Fragment {
     Calendar calendar;
     DataSeeds dataSeeds = new DataSeeds();
     String mo_moduleId,mo_credits,mo_publishedDate,mo_publishedTime,mo_dueDate,mo_dueTime,
-    mo_status,mo_lecturerId,mo_DocumentId;
+    mo_status,mo_lecturerId,mo_DocumentId ="";
     public AssessmentScheduleFragment() {
         // Required empty public constructor
     }
@@ -102,7 +102,7 @@ public class AssessmentScheduleFragment extends Fragment {
 
         moduleArrayAdapter = new ArrayAdapter<>(view.getContext(),R.layout.list_item,lecturerModuleId);
         moduleId.setAdapter(moduleArrayAdapter);
-        if(mo_DocumentId !="" )
+        if(!mo_DocumentId.isEmpty() )
         {
             credits.setText(mo_credits);
             publishedDate.setText(mo_publishedTime);

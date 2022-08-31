@@ -168,14 +168,15 @@ public class UserRegistrationFragment extends Fragment {
             if(userRole.getText().toString().equals("Lecturer")) {
 
                 userModel = new UserModel(
-                        "",
+                        batchId.getText().toString(),
                         email.getText().toString(),
                         firstname.getText().toString(),
                         lastname.getText().toString(),
                         "active",
                         universityId.getText().toString(),
                         userRole.getText().toString().toLowerCase(),
-                        ""
+                        "",
+                        degree.getText().toString()
                 );
                 random = new Random();
                 String randomPassword = String.format("%07d", random.nextInt(10000));
@@ -230,7 +231,8 @@ public class UserRegistrationFragment extends Fragment {
                                 "active",
                                 universityId.getText().toString(),
                                 userRole.getText().toString().toLowerCase(),
-                                fieldValues.toString()
+                                fieldValues.toString(),
+                                degree.getText().toString()
 
                         );
                         random = new Random();

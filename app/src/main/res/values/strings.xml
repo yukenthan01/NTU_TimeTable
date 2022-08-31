@@ -55,4 +55,7 @@
     <string name="submission_time">Submission Time</string>
     <string name="assessment_schedule">Assessment Schedule</string>
     <string name="view_assessment">View Assessment</string>
+    <string name="current_password">Current Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="new_password">New Password</string>
 </resources>

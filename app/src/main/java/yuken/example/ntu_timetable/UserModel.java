@@ -1,12 +1,13 @@
 package yuken.example.ntu_timetable;
 
 public class UserModel {
-    String batchId,email,firstname,lastname,status,universityId,userRole,courseId;
+    String batchId,email,firstname,lastname,status,universityId,userRole,courseId,degreeLevel;
 
     public UserModel() {
     }
 
-    public UserModel(String batchId, String email, String firstname, String lastname, String status, String universityId, String userRole, String courseId) {
+    public UserModel(String batchId, String email, String firstname, String lastname,
+                     String status, String universityId, String userRole, String courseId,String degreeLevel) {
         this.batchId = batchId;
         this.email = email;
         this.firstname = firstname;
@@ -15,6 +16,15 @@ public class UserModel {
         this.universityId = universityId;
         this.userRole = userRole;
         this.courseId = courseId;
+        this.degreeLevel = degreeLevel;
+    }
+
+    public String getDegreeLevel() {
+        return degreeLevel;
+    }
+
+    public void setDegreeLevel(String degreeLevel) {
+        this.degreeLevel = degreeLevel;
     }
 
     public String getBatchId() {

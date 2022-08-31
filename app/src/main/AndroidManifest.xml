@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="yuken.example.ntu_timetable">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,6 +17,9 @@
         android:theme="@style/Theme.NTU_TimeTable"
         tools:targetApi="32">
         <activity
+            android:name=".ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".LecturerDashboardActivity"
             android:exported="false" />
         <activity
@@ -22,7 +27,7 @@
             android:exported="false" />
         <activity
             android:name=".AdminDashboard"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -36,8 +41,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".DefaultNotificationBroadcast"/>
-        <receiver android:name=".TimeTableChangedBroadcast"/>
+        <receiver android:name=".DefaultNotificationBroadcast" />
+        <receiver android:name=".TimeTableChangedBroadcast" />
     </application>
 
 </manifest>

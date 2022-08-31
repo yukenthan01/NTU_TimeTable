@@ -31,6 +31,31 @@ public class DataSeeds {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String result  = null;
     String finalUserRole ;
+    public interface fullNameCallBack {
+        void onCallback(String fullName);
+    }
+    public void getFullName(fullNameCallBack fullnameCallBack){
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        String uid = firebaseAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(uid);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String fullname =
+                        documentSnapshot.getString("firstname").toString() +" "+documentSnapshot.getString("lastname").toString();
+                fullnameCallBack.onCallback(fullname);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAGfaill", "onFailure: "+e.getMessage().toString());
+            }
+        });
+    }
     public void checkUserLevel(callBackUserLevel callBackUserLevel){
 
         firebaseAuth = FirebaseAuth.getInstance();

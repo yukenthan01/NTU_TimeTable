@@ -54,22 +54,22 @@ public class NotificationWorker extends Worker{
             public void run() {
                 //sendNotificationSchedule();
                // testdate();
-                        Intent intent = new Intent(getApplicationContext(),
-                DefaultNotificationBroadcast.class);
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        AlarmManager alarmManager =
-                null;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
-        }
-
-        long currentTimeInMilliSeconds = System.currentTimeMillis();
-
-//        alarmManager.set(AlarmManager.RTC_WAKEUP,
-//                currentTimeInMilliSeconds+10, pendingIntent);
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,currentTimeInMilliSeconds,10,pendingIntent);
+//                        Intent intent = new Intent(getApplicationContext(),
+//                DefaultNotificationBroadcast.class);
+//        PendingIntent pendingIntent =
+//                PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        AlarmManager alarmManager =
+//                null;
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
+//        }
+//
+//        long currentTimeInMilliSeconds = System.currentTimeMillis();
+//
+////        alarmManager.set(AlarmManager.RTC_WAKEUP,
+////                currentTimeInMilliSeconds+10, pendingIntent);
+//                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,currentTimeInMilliSeconds,10,pendingIntent);
             }
 
         });

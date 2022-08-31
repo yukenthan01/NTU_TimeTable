@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
@@ -35,12 +36,16 @@ public class StudentDashboardActivity extends AppCompatActivity {
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     View haderXml;
-    private WorkRequest notificationWorkRequest;
+    TextView fullNmeTextView;
+    DataSeeds dataSeeds =new DataSeeds();
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_dashboard);
+
+//        //////////////////////////////////////////////////////////////////
         createNotificationChannel();
 //                notificationWorkRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
 //         .build();
@@ -73,6 +78,15 @@ public class StudentDashboardActivity extends AppCompatActivity {
 //                currentTimeInMilliSeconds, pendingIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,currentTimeInMilliSeconds,10,
                 pendingIntent);
+////////////////////////////////////////////////////////////////////////////////////
+
+        dataSeeds.getFullName(new DataSeeds.fullNameCallBack() {
+            @Override
+            public void onCallback(String fullName) {
+                fullNmeTextView = StudentDashboardActivity.this.findViewById(R.id.fullname);
+                fullNmeTextView.setText(fullName);
+            }
+        });
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -109,10 +123,15 @@ public class StudentDashboardActivity extends AppCompatActivity {
                         replaceFragment(new StudentAssessmentViewFragment());
                         break;
 
-                    case R.id.nav_register:
-                        toolbar.setTitle(R.string.user_register);
+                    case R.id.nav_profile:
+                        toolbar.setTitle(R.string.tittle_profile);
                         item.setChecked(true);
-                        replaceFragment(new UserRegistrationFragment());
+                        replaceFragment(new ProfileFragment());
+                        break;
+                    case R.id.nav_password_change:
+                        toolbar.setTitle(R.string.change_password);
+                        item.setChecked(true);
+                        replaceFragment(new ChangePasswordFragment());
                         break;
                     case R.id.logout:
                         item.setChecked(true);
